@@ -1,0 +1,28 @@
+# 1. Disable Directory Listing (ෆෝල්ඩර් වල ඇති දේවල් පිටතට පෙන්වීම නැවැත්වීම)
+Options -Indexes
+
+# 2. Block Script Execution (කිසිම ආකාරයක ස්ක්‍රිප්ට් එකක් ධාවනය වීම වැළැක්වීම)
+# මෙහිදී php, python, perl වැනි භයානක විය හැකි ෆයිල් ජාති block කර ඇත.
+<FilesMatch "\.(php|php[3-8]|phtml|pl|py|jsp|asp|sh|cgi|exe)$">
+    Require all denied
+</FilesMatch>
+
+# 3. Disable PHP Engine (අමතර ආරක්ෂාව සඳහා PHP එන්ජිම ක්‍රියා විරහිත කිරීම)
+<IfModule mod_php5.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+# 4. Force specific MIME types for images (වෙනත් ෆයිල් වර්ග පින්තූර ලෙස පෙන්වීම වැළැක්වීම)
+<IfModule mod_mime.c>
+    AddType image/jpeg .jpg .jpeg
+    AddType image/png .png
+    AddType image/gif .gif
+    AddType image/webp .webp
+    AddType image/svg+xml .svg
+</IfModule>

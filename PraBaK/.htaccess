@@ -1,0 +1,2 @@
+# Block access to old admin path
+Redirect 404 /admin

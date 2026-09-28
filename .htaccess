@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteBase /
+
+# 1. පවතින සැබෑ Files හෝ Folders (assets, css, js, images) bypass කිරීම
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 2. domain/product-details/12 වැනි URLs සඳහා සහය ලබා දීම (Optional clean detail URLs)
+RewriteRule ^product-details/([0-9]+)/?$ index.php?page=product-details&id=$1 [QSA,L]
+
+# 3. domain/page-name ආකෘතිය index.php?page=page-name වෙත යොමු කිරීම
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?page=$1 [QSA,L]
