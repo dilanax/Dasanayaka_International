@@ -88,10 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
         <!-- Brand Header Section -->
         <div class="text-center mb-8 flex flex-col items-center">
             <div class="w-16 h-16 rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-center p-2 mb-4 shadow-[0_0_25px_rgba(220,38,38,0.25)]">
-                <img src="/assets/images/logo.png" 
+                <img src="../assets/images/logo.png" 
                      alt="Red Runner Logo" 
-                     class="w-full h-full object-contain"
-                     onerror="this.onerror=null; this.src='/assets/images/logo.jpg';">
+                     class="w-full h-full object-cover rounded-xl"
+                     onerror="this.onerror=null; this.src='../assets/images/readrunnerlogo.jpg';">
             </div>
             <h1 class="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase leading-none">
                 RED <span class="text-red-600">RUNNER</span>

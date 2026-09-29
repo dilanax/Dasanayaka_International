@@ -1,25 +1,28 @@
 <?php
 // Database Configuration
-$host = "localhost";
+$host = "127.0.0.1";
 $db_name = "loopzglo_dasagl_dasanayake";
 $username = "loopzglo_templatesloopzgl_dasanayake";
 $password = "loopzglo_templatesloopzgl_dasa";
 
 try {
-    // PDO Connection String
+    // Attempt primary connection
     $conn = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8", $username, $password);
-    
-    // Set Error Mode to Exception (Meka errors thibunoth pennanna udaw wenawa)
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Default Fetch Mode eka Object/Associative Array ekak widiyata set kirima
-    $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-    // Connection eka check karaganna ona nam meka uncomment karala balන්න
-    // echo "Connected Successfully!"; 
-
 } catch(PDOException $e) {
-    // Connection eka fail unoth error message eka meke pennanwa
-    die("Connection Failed: " . $e->getMessage());
+    try {
+        // Fallback to localhost
+        $conn = new PDO("mysql:host=localhost;dbname=$db_name;charset=utf8", $username, $password);
+    } catch(PDOException $e2) {
+        try {
+            // Fallback for default local XAMPP root user
+            $conn = new PDO("mysql:host=127.0.0.1;dbname=$db_name;charset=utf8", "root", "");
+        } catch(PDOException $e3) {
+            die("Connection Failed: " . $e3->getMessage());
+        }
+    }
 }
+
+// Set Error Mode & Default Fetch Mode
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 ?>

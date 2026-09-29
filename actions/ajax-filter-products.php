@@ -1,6 +1,6 @@
 <?php
 /**
- * Red Runner - AJAX Filter Products Endpoint (Modern Dark Themed Product Box)
+ * Dasanayaka International - AJAX Filter Products Endpoint (Light Theme)
  * Path: actions/ajax-filter-products.php
  */
 
@@ -22,7 +22,7 @@ if ($category) {
 }
 
 if (!empty($search)) {
-    $where[] = "(p.title LIKE ? OR p.short_desc LIKE ? OR c.title LIKE ?)";
+    $where[] = "(p.title LIKE ? OR p.description LIKE ? OR c.title LIKE ?)";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
@@ -58,72 +58,63 @@ $html = '';
 
 foreach ($products as $p) {
     $title = htmlspecialchars($p['title']);
-    $catTitle = htmlspecialchars($p['cat_title'] ?? 'Red Runner');
-    $price = htmlspecialchars($p['price_range']);
-    $minQty = htmlspecialchars($p['min_qty'] ?? '1');
+    $catTitle = htmlspecialchars($p['cat_title'] ?? 'Dasanayaka');
+    $price = htmlspecialchars($p['price_range'] ?? 'Contact for price');
     $id = intval($p['id']);
     
-    $imgSrc = '/assets/images/products/' . $p['main_image'];
+    $imgSrc = 'assets/images/products/' . $p['main_image'];
     $imgFallback = "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?q=80&w=600&auto=format&fit=crop";
 
     $html .= '
-    <div class="product-card group bg-zinc-950 rounded-[28px] md:rounded-[32px] border border-zinc-900 p-3 md:p-4 flex flex-col justify-between hover:border-red-600/40 hover:shadow-[0_0_30px_rgba(220,38,38,0.15)] relative overflow-hidden">
-        
+    <div class="product-card group bg-white rounded-3xl border border-slate-200/80 p-4 flex flex-col justify-between hover:border-emerald-400 hover:shadow-xl hover:shadow-emerald-950/5 relative overflow-hidden transition-all duration-300">
         <div>
             <!-- Image Area -->
-            <a href="/product-details?id=' . $id . '" class="block relative aspect-square rounded-[22px] md:rounded-[26px] overflow-hidden bg-black border border-zinc-900 mb-4 flex items-center justify-center">
+            <a href="index.php?page=product-details&id=' . $id . '" class="block relative aspect-square rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 mb-4 flex items-center justify-center">
                 <img src="' . $imgSrc . '" 
                      alt="' . $title . '" 
                      class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500 ease-out" 
                      onerror="this.onerror=null; this.src=\'' . $imgFallback . '\';">
                 
                 <!-- Category Floating Badge -->
-                <div class="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1 rounded-xl border border-zinc-800 shadow-sm pointer-events-none">
-                    <span class="text-[9px] font-black text-red-500 uppercase tracking-wider">' . $catTitle . '</span>
+                <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-xl border border-slate-200 shadow-sm pointer-events-none">
+                    <span class="text-[9px] font-black text-emerald-800 uppercase tracking-wider">' . $catTitle . '</span>
                 </div>
             </a>
 
             <!-- Content Area -->
-            <div class="px-2">
-                <a href="/product-details?id=' . $id . '" class="block mb-2">
-                    <h3 class="text-xs md:text-sm font-black text-white uppercase tracking-tight line-clamp-2 leading-snug group-hover:text-red-500 transition-colors">
+            <div class="px-1">
+                <a href="index.php?page=product-details&id=' . $id . '" class="block mb-2">
+                    <h3 class="text-xs md:text-sm font-extrabold text-slate-900 uppercase tracking-tight line-clamp-2 leading-snug group-hover:text-emerald-700 transition-colors">
                         ' . $title . '
                     </h3>
                 </a>
-
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="text-[9px] md:text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-black border border-zinc-800/80 px-2.5 py-0.5 rounded-md">
-                        MOQ: ' . $minQty . ' Pcs
-                    </span>
-                </div>
             </div>
         </div>
 
         <!-- Bottom Price & Actions Row -->
-        <div class="pt-3 border-t border-zinc-900 px-2 flex items-center justify-between gap-2 mt-2">
+        <div class="pt-3 border-t border-slate-100 px-1 flex items-center justify-between gap-2 mt-2">
             <div>
-                <span class="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-zinc-500 block leading-none mb-1">Wholesale</span>
-                <span class="text-xs md:text-sm font-black text-white tracking-tight">' . $price . '</span>
+                <span class="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 block leading-none mb-1">Wholesale</span>
+                <span class="text-xs md:text-sm font-black text-amber-700 tracking-tight">' . $price . '</span>
             </div>
 
             <div class="flex items-center gap-1.5">
-                <!-- Add To Inquiry Quick Button -->
+                <!-- Add To Inquiry Button -->
                 <button type="button" 
                         onclick="addToInquiry(' . $id . ')" 
                         title="Add to Inquiry Basket"
-                        class="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-black border border-zinc-800 text-zinc-300 hover:text-white hover:bg-red-600 hover:border-red-600 flex items-center justify-center transition-all duration-300 active:scale-90 shadow-sm cursor-pointer">
+                        class="w-9 h-9 rounded-xl bg-emerald-700 text-white hover:bg-emerald-800 flex items-center justify-center transition-all duration-300 active:scale-95 shadow-md shadow-emerald-700/20 cursor-pointer">
                     <i class="fa-solid fa-cart-plus text-xs"></i>
                 </button>
                 
                 <!-- View Details -->
-                <a href="/product-details?id=' . $id . '" 
+                <a href="index.php?page=product-details&id=' . $id . '" 
                    title="View Specs"
-                   class="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 flex items-center justify-center transition-all duration-300">
+                   class="w-9 h-9 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-200 flex items-center justify-center transition-all duration-300">
                     <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
             </div>
         </div>
-
     </div>
     ';
 }

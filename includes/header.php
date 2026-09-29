@@ -6,53 +6,79 @@ $currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . " | Red Runner" : "Red Runner | Sri Lanka's Premier Knitwear Manufacturer"; ?></title>
+    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) . " | Dasanayaka International" : "Dasanayaka International | Premium Agricultural Products & Botanicals Exporter"; ?></title>
     
-    <link rel="icon" type="image/png" href="/assets/images/readrunnerlogo.jpg">
+    <link rel="icon" type="image/png" href="assets/images/readrunnerlogo.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    container: {
+                        center: true,
+                        screens: {
+                            sm: '640px',
+                            md: '768px',
+                            lg: '1024px',
+                            xl: '1280px',
+                            '2xl': '1280px',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap');
+        .container { max-width: 1280px !important; margin-left: auto; margin-right: auto; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        h1, h2, h3, h4, .font-heading { font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif; }
+        .font-hero { font-family: 'Outfit', 'Space Grotesk', 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; }
+        .font-body { font-family: 'Plus Jakarta Sans', sans-serif; }
         
-        /* Modern Scrollbar: Black & Red */
+        /* Modern Emerald Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000000; }
-        ::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #047857; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #059669; }
         
-        /* Navigation Links */
-        .nav-link { position: relative; transition: all 0.3s; }
+        /* Navigation Underline Animations */
+        .nav-link { position: relative; transition: all 0.3s ease; white-space: nowrap; }
         .nav-link::after { 
-            content: ''; position: absolute; bottom: -4px; left: 0; 
-            width: 0; height: 2px; background: #dc2626; transition: 0.3s; 
+            content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 2.5px; background: #d97706; border-radius: 2px; transition: all 0.3s ease; 
         }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
-        /* Full Screen Search Overlay */
+        /* Full Screen Light Glassmorphism Search Overlay */
         #search-overlay {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(0, 0, 0, 0.98); 
+            background: rgba(255, 255, 255, 0.98); 
             backdrop-filter: blur(25px);
         }
         #search-overlay.hidden {
             opacity: 0;
             pointer-events: none;
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
-        /* Mobile Menu Transition */
-        #mobile-menu { transition: all 0.3s ease-in-out; max-height: 0; overflow: hidden; }
-        #mobile-menu.active { max-height: 500px; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        /* Mobile Menu Accordion */
+        #mobile-menu { transition: all 0.3s ease-in-out; max-height: 0; overflow: hidden; opacity: 0; }
+        #mobile-menu.active { max-height: 600px; opacity: 1; padding: 1.25rem 0; }
 
-        .swal2-toast { border-radius: 15px !important; background: #000000 !important; color: #ffffff !important; border: 1px solid #27272a; }
+        .swal2-toast { border-radius: 16px !important; background: #ffffff !important; color: #0f172a !important; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important; }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Cart Animation */
+        /* Cart Bounce */
         @keyframes cart-bounce {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.15); }
@@ -62,63 +88,69 @@ $currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
         @keyframes float-up {
             0% { opacity: 0; transform: translateY(0); }
             20% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 0; transform: translateY(-40px); }
         }
         .float-badge { 
             position: absolute; 
-            top: 0; 
-            right: 20px; 
+            top: -5px; 
+            right: 15px; 
             color: #ffffff; 
-            background: #dc2626;
-            font-size: 12px; 
+            background: #d97706;
+            font-size: 11px; 
             font-weight: 900; 
-            padding: 2px 6px; 
-            border-radius: 8px; 
+            padding: 2px 7px; 
+            border-radius: 10px; 
             pointer-events: none; 
             z-index: 100; 
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
             animation: float-up 0.8s ease-out forwards; 
         }
     </style>
 
     <script>
     function addToInquiry(productId) {
-        fetch('/actions/add-to-inquiry.php?id=' + productId)
+        fetch('actions/add-to-inquiry.php?id=' + productId)
         .then(response => response.json())
         .then(data => {
             const cartBtn = document.getElementById('inquiry-cart-btn');
             const countBadge = document.getElementById('inquiry-count');
             
             if(data.status === 'success' || data.status === 'exists') {
-                countBadge.innerText = data.count;
+                if (countBadge) countBadge.innerText = data.count;
 
-                cartBtn.classList.remove('cart-animate');
-                void cartBtn.offsetWidth;
-                cartBtn.classList.add('cart-animate');
+                if (cartBtn) {
+                    cartBtn.classList.remove('cart-animate');
+                    void cartBtn.offsetWidth;
+                    cartBtn.classList.add('cart-animate');
 
-                if(data.status === 'success') {
-                    const float = document.createElement('span');
-                    float.innerText = '+1';
-                    float.className = 'float-badge';
-                    cartBtn.appendChild(float);
-                    setTimeout(() => float.remove(), 800);
+                    if(data.status === 'success') {
+                        const float = document.createElement('span');
+                        float.innerText = '+1';
+                        float.className = 'float-badge';
+                        cartBtn.appendChild(float);
+                        setTimeout(() => float.remove(), 800);
+                    }
                 }
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error adding inquiry:', error));
     }
 
     function openSearch() {
         const overlay = document.getElementById('search-overlay');
+        if (!overlay) return;
         overlay.classList.remove('hidden');
         overlay.classList.add('flex');
         document.body.style.overflow = 'hidden'; 
         setTimeout(() => {
-            document.getElementById('search-input').focus();
+            const input = document.getElementById('search-input');
+            if (input) input.focus();
         }, 100);
     }
 
     function closeSearch() {
         const overlay = document.getElementById('search-overlay');
+        if (!overlay) return;
         overlay.classList.add('hidden');
         overlay.classList.remove('flex');
         document.body.style.overflow = 'auto'; 
@@ -126,12 +158,13 @@ $currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
 
     function liveSearch(query) {
         const resultsDiv = document.getElementById('search-results');
+        if (!resultsDiv) return;
         if (query.length < 2) {
             resultsDiv.innerHTML = "";
             return;
         }
 
-        fetch('/actions/ajax-search.php?q=' + encodeURIComponent(query))
+        fetch('actions/ajax-search.php?q=' + encodeURIComponent(query))
         .then(response => response.text())
         .then(data => {
             resultsDiv.innerHTML = data;
@@ -139,134 +172,173 @@ $currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
     }
 
     function toggleMenu() {
-        document.getElementById('mobile-menu').classList.toggle('active');
+        const menu = document.getElementById('mobile-menu');
+        if (menu) menu.classList.toggle('active');
     }
 
     document.addEventListener('keydown', (e) => {
         if (e.key === "Escape") closeSearch();
     });
+
+    window.addEventListener('scroll', () => {
+        const mainNav = document.getElementById('main-nav');
+        if (mainNav) {
+            if (window.scrollY > 10) {
+                mainNav.classList.add('shadow-md', 'border-b-0');
+                mainNav.classList.remove('border-b', 'border-slate-200/80');
+            } else {
+                mainNav.classList.remove('shadow-md');
+            }
+        }
+    });
     </script>
 </head>
-<body class="bg-black text-white">
+<body class="bg-slate-50 text-slate-900 antialiased selection:bg-emerald-700 selection:text-white">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-zinc-950 text-zinc-400 text-xs py-2 px-4 border-b border-zinc-900">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-6">
-                <a href="tel:+94771179866" class="hover:text-white transition flex items-center gap-2">
-                    <i class="fa-solid fa-phone text-red-600"></i> +94 77 117 9866
+    <!-- Top Light Utility Ribbon -->
+    <div id="top-ribbon" class="bg-gradient-to-r from-slate-100 via-emerald-50/50 to-slate-100 text-slate-700 text-[11px] font-semibold py-2 border-b border-slate-200/80">
+        <div class="w-full px-4 sm:px-6 md:px-8 lg:px-12 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-5 sm:gap-6">
+                <a href="tel:+94771179866" class="hover:text-emerald-700 transition flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-phone text-emerald-700 text-xs"></i> <span>+94 77 117 9866</span>
                 </a>
-                <a href="mailto:info@redrunner.lk" class="hidden sm:flex hover:text-white transition items-center gap-2">
-                    <i class="fa-solid fa-envelope text-red-600"></i> info@redrunner.lk
+                <a href="mailto:info@redrunner.lk" class="hidden sm:flex hover:text-emerald-700 transition items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-envelope text-emerald-700 text-xs"></i> <span>info@redrunner.lk</span>
                 </a>
+                <span class="hidden md:inline-flex items-center gap-1.5 text-emerald-800 font-extrabold bg-white border border-emerald-200 px-3 py-0.5 rounded-full text-[10px] shadow-sm whitespace-nowrap">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span> Export Desk Active
+                </span>
             </div>
-            <div class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-                <span>Bulk Production</span>
-                <span class="text-zinc-700">&bull;</span>
-                <span>Global Export</span>
-                <span class="text-zinc-700">&bull;</span>
-                <span>Est. 2015</span>
+            <div class="flex items-center gap-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500 ml-auto whitespace-nowrap">
+                <span class="text-amber-700 bg-amber-100 border border-amber-200 px-2 py-0.5 rounded-md">20+ Countries</span>
+                <span class="text-slate-300">&bull;</span>
+                <span class="hover:text-slate-900 transition">Dehydrated Leaves</span>
+                <span class="text-slate-300">&bull;</span>
+                <span class="hover:text-slate-900 transition">Ceylon Spices & Fruits</span>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Header -->
-    <nav class="sticky top-0 z-40 bg-black/95 text-white border-b border-zinc-900 backdrop-blur-xl">
-        <div class="container mx-auto px-4 md:px-6 py-2.5">
-            <div class="flex justify-between items-center gap-4">
+    <!-- Ultra-Modern Light Glassmorphism Header -->
+    <nav id="main-nav" class="sticky top-0 z-40 bg-white/95 backdrop-blur-xl transition-all duration-300 border-b-0 shadow-sm">
+        <div class="w-full px-4 sm:px-6 md:px-8 lg:px-12 py-3">
+            <div class="flex items-center justify-between gap-4 sm:gap-6">
                 
-                <!-- 1:1 Enlarged Modern Brand Logo (56x56 px) -->
-                <a href="/" class="shrink-0 flex items-center gap-3.5 group">
-                    <div class="w-14 h-14 md:w-16 md:h-16 aspect-square rounded-2xl bg-zinc-950 border border-zinc-800 group-hover:border-red-600 flex items-center justify-center p-2 transition-all duration-300 shadow-[0_0_20px_rgba(220,38,38,0.2)] group-hover:shadow-[0_0_25px_rgba(220,38,38,0.45)] overflow-hidden">
-                        <img src="/assets/images/logo.png" 
-                             alt="Red Runner Logo" 
-                             class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                             onerror="this.onerror=null; this.src='/assets/images/readrunnerlogo.jpg';">
+                <!-- Modern Brand Logo Header -->
+                <a href="index.php?page=home" class="shrink-0 flex items-center gap-3 group">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white border border-slate-200 p-1 flex items-center justify-center shrink-0 shadow-md group-hover:border-emerald-500 transition-all duration-300 overflow-hidden">
+                        <img src="assets/images/logo.png" alt="Dasanayaka International Logo" class="w-full h-full object-contain">
                     </div>
-                    <div class="flex flex-col">
-                        <h1 class="text-xl md:text-2xl font-black tracking-tighter text-white leading-none font-sans">
-                            RED <span class="text-red-600">RUNNER</span>
+                    <div class="flex flex-col justify-center">
+                        <h1 class="text-base md:text-lg font-black font-heading tracking-tight text-slate-900 leading-tight flex items-center gap-1">
+                            DASANAYAKA <span class="text-emerald-700">INT.</span>
                         </h1>
-                        <p class="text-[9px] uppercase tracking-[2.5px] text-zinc-400 font-bold mt-1 group-hover:text-white transition">Knitwear Manufacturer</p>
+                        <p class="text-[9px] uppercase tracking-[1.8px] text-slate-500 font-extrabold group-hover:text-amber-600 transition whitespace-nowrap">Agricultural Products & Botanical Exporter</p>
                     </div>
                 </a>
 
-                <!-- Desktop Navigation with Clean URLs -->
-                <div class="hidden lg:flex gap-10 text-[11px] font-black uppercase tracking-[2px]">
-                    <a href="/" class="nav-link <?= ($currentPage === 'home') ? 'text-white active' : 'text-zinc-300 hover:text-white' ?>">Home</a>
-                    <a href="/about" class="nav-link <?= ($currentPage === 'about') ? 'text-white active' : 'text-zinc-300 hover:text-white' ?>">About Us</a>
-                    <a href="/shop" class="nav-link <?= ($currentPage === 'shop') ? 'text-white active' : 'text-zinc-300 hover:text-white' ?>">Products</a>
-                    <a href="/categories" class="nav-link <?= ($currentPage === 'categories') ? 'text-white active' : 'text-zinc-300 hover:text-white' ?>">Categories</a>
-                    <a href="/contact" class="nav-link <?= ($currentPage === 'contact') ? 'text-white active' : 'text-zinc-300 hover:text-white' ?>">Contact</a>
+                <!-- Desktop Navigation Links -->
+                <div class="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-bold uppercase tracking-wider whitespace-nowrap">
+                    <a href="index.php?page=home" class="nav-link py-2 <?= ($currentPage === 'home') ? 'text-emerald-700 active font-extrabold' : 'text-slate-700 hover:text-emerald-700' ?>">Home</a>
+                    <a href="index.php?page=about" class="nav-link py-2 <?= ($currentPage === 'about') ? 'text-emerald-700 active font-extrabold' : 'text-slate-700 hover:text-emerald-700' ?>">About Us</a>
+                    <a href="index.php?page=shop" class="nav-link py-2 <?= ($currentPage === 'shop') ? 'text-emerald-700 active font-extrabold' : 'text-slate-700 hover:text-emerald-700' ?>">Products</a>
+                    <a href="index.php?page=categories" class="nav-link py-2 <?= ($currentPage === 'categories') ? 'text-emerald-700 active font-extrabold' : 'text-slate-700 hover:text-emerald-700' ?>">Categories</a>
+                    <a href="index.php?page=brands" class="nav-link py-2 <?= ($currentPage === 'brands') ? 'text-emerald-700 active font-extrabold' : 'text-slate-700 hover:text-emerald-700' ?>">Brands</a>
+                    <a href="index.php?page=contact" class="nav-link py-2 <?= ($currentPage === 'contact') ? 'text-emerald-700 active font-extrabold' : 'text-slate-700 hover:text-emerald-700' ?>">Contact</a>
                 </div>
 
-                <!-- Right Action Buttons -->
-                <div class="flex items-center gap-3 md:gap-4 shrink-0">
+                <!-- Right Action Controls -->
+                <div class="flex items-center gap-3 shrink-0">
                     
-                    <!-- Search Button -->
-                    <button onclick="openSearch()" class="h-10 w-10 md:h-11 md:w-11 flex items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-red-600 hover:border-red-600 transition-all duration-300 active:scale-95 text-white">
+                    <!-- Search Trigger Icon Button -->
+                    <button onclick="openSearch()" 
+                            title="Search Products"
+                            class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-100/90 hover:bg-emerald-700 hover:text-white text-slate-700 border border-slate-200/80 transition-all duration-300 active:scale-95 shadow-sm">
                         <i class="fas fa-search text-sm"></i>
                     </button>
 
-                    <!-- Inquiry Button with Clean URL -->
-                    <a href="/inquiry-list" id="inquiry-cart-btn" class="relative group flex items-center bg-red-600 px-4 md:px-6 py-2.5 md:py-3 rounded-xl hover:bg-red-700 transition shadow-[0_0_20px_rgba(220,38,38,0.3)] active:scale-95 text-white">
-                        <i class="fas fa-shopping-basket text-sm md:mr-2.5"></i> 
-                        <span class="hidden md:inline text-xs font-black uppercase tracking-widest">Inquiry</span>
+                    <!-- Inquiry Basket Pill Button -->
+                    <a href="index.php?page=inquiry-list" id="inquiry-cart-btn" class="h-10 px-4 md:px-5 relative group flex items-center justify-center bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl transition-all duration-300 shadow-md shadow-emerald-700/20 border border-emerald-600/30 active:scale-95">
+                        <i class="fas fa-shopping-basket text-sm md:mr-2"></i> 
+                        <span class="hidden md:inline text-xs font-bold uppercase tracking-wider">Inquiry Basket</span>
                         
-                        <span id="inquiry-count" class="absolute -top-2 -right-2 bg-white text-red-600 text-[10px] md:text-[11px] font-black h-5 w-5 md:h-6 md:w-6 rounded-full flex items-center justify-center border-2 border-red-600 shadow-lg">
+                        <span id="inquiry-count" class="ml-2 bg-amber-400 text-slate-950 text-[10px] font-black h-5 w-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                             <?php echo isset($_SESSION['inquiry_cart']) ? count($_SESSION['inquiry_cart']) : '0'; ?>
                         </span>
                     </a>
 
-                    <!-- Mobile Menu Button -->
-                    <button onclick="toggleMenu()" class="lg:hidden h-10 w-10 flex items-center justify-center text-xl text-zinc-300 hover:text-white transition bg-zinc-900 rounded-xl border border-zinc-800">
+                    <!-- Get Quote CTA (Desktop) -->
+                    <a href="index.php?page=contact" class="h-10 px-4 hidden xl:inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-md shadow-amber-400/20 border border-amber-300 transition-all duration-300 active:scale-95">
+                        <span>Get Quote</span>
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                    </a>
+
+                    <!-- Mobile Menu Drawer Toggle -->
+                    <button onclick="toggleMenu()" class="lg:hidden h-10 w-10 flex items-center justify-center text-lg text-slate-700 hover:text-emerald-700 transition bg-slate-100/90 rounded-xl border border-slate-200/80">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
+                </div>
             </div>
 
-            <!-- Mobile Dropdown Navigation with Clean URLs -->
+            <!-- Mobile Navigation Dropdown Card -->
             <div id="mobile-menu" class="lg:hidden">
-                <div class="flex flex-col gap-5 text-sm font-bold uppercase tracking-[2.5px] text-center mt-4">
-                    <a href="/" class="<?= ($currentPage === 'home') ? 'text-red-500' : 'text-zinc-300 hover:text-red-500' ?> transition">Home</a>
-                    <a href="/about" class="<?= ($currentPage === 'about') ? 'text-red-500' : 'text-zinc-300 hover:text-red-500' ?> transition">About Us</a>
-                    <a href="/shop" class="<?= ($currentPage === 'shop') ? 'text-red-500' : 'text-zinc-300 hover:text-red-500' ?> transition">Wholesale Products</a>
-                    <a href="/categories" class="<?= ($currentPage === 'categories') ? 'text-red-500' : 'text-zinc-300 hover:text-red-500' ?> transition">Categories</a>
-                    <a href="/inquiry-list" class="<?= ($currentPage === 'inquiry-list') ? 'text-red-500' : 'text-zinc-300 hover:text-red-500' ?> transition">Inquiry List</a>
-                    <a href="/contact" class="<?= ($currentPage === 'contact') ? 'text-red-500' : 'text-zinc-300 hover:text-red-500' ?> transition pb-3">Contact</a>
+                <div class="bg-white/95 backdrop-blur-xl border border-slate-200/80 rounded-2xl p-5 shadow-xl mt-3 flex flex-col gap-3">
+                    <a href="index.php?page=home" class="flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider <?= ($currentPage === 'home') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'text-slate-700 hover:bg-slate-50' ?>">
+                        <span>Home</span> <i class="fas fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
+                    <a href="index.php?page=about" class="flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider <?= ($currentPage === 'about') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'text-slate-700 hover:bg-slate-50' ?>">
+                        <span>About Us</span> <i class="fas fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
+                    <a href="index.php?page=shop" class="flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider <?= ($currentPage === 'shop') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'text-slate-700 hover:bg-slate-50' ?>">
+                        <span>Products Catalog</span> <i class="fas fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
+                    <a href="index.php?page=categories" class="flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider <?= ($currentPage === 'categories') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'text-slate-700 hover:bg-slate-50' ?>">
+                        <span>Product Categories</span> <i class="fas fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
+                    <a href="index.php?page=brands" class="flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider <?= ($currentPage === 'brands') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'text-slate-700 hover:bg-slate-50' ?>">
+                        <span>Our Brands</span> <i class="fas fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
+                    <a href="index.php?page=inquiry-list" class="flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider <?= ($currentPage === 'inquiry-list') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'text-slate-700 hover:bg-slate-50' ?>">
+                        <span>Inquiry Basket</span> <i class="fas fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
+                    <a href="index.php?page=contact" class="flex items-center justify-between px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider <?= ($currentPage === 'contact') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'text-slate-700 hover:bg-slate-50' ?>">
+                        <span>Contact Factory</span> <i class="fas fa-chevron-right text-[10px] text-slate-400"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Search Overlay -->
-    <div id="search-overlay" class="fixed inset-0 z-[60] hidden flex-col items-center pt-20 md:pt-32 px-4 md:px-6 overflow-y-auto">
-        <div class="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-red-600/10 blur-[90px] rounded-full pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-64 md:w-96 h-64 md:h-96 bg-red-950/20 blur-[90px] rounded-full pointer-events-none"></div>
+    <!-- Light Glassmorphism Fullscreen Search Modal -->
+    <div id="search-overlay" class="fixed inset-0 z-[60] hidden flex-col items-center pt-16 md:pt-24 px-4 md:px-6 overflow-y-auto">
+        <div class="absolute top-0 right-0 w-80 md:w-[500px] h-80 md:h-[500px] bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-80 md:w-[500px] h-80 md:h-[500px] bg-amber-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
-        <button onclick="closeSearch()" class="absolute top-6 md:top-8 right-6 md:right-8 text-zinc-500 hover:text-white text-3xl transition-all hover:rotate-90 z-10 w-12 h-12 flex items-center justify-center">
-            <i class="fas fa-times"></i>
+        <button onclick="closeSearch()" class="absolute top-6 md:top-8 right-6 md:right-8 text-slate-600 hover:text-slate-900 text-3xl transition-all hover:rotate-90 z-10 w-12 h-12 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-md">
+            <i class="fas fa-times text-xl"></i>
         </button>
 
-        <div class="w-full max-w-4xl relative z-10 mt-8 md:mt-0">
-            <div class="mb-2 text-red-500 text-[10px] md:text-xs font-black uppercase tracking-[4px] text-center">Instant Wholesale Search</div>
-            <h2 class="text-white text-3xl md:text-5xl font-black text-center mb-8 md:mb-10 tracking-tighter uppercase leading-tight">Search Knitwear Catalog</h2>
+        <div class="w-full max-w-3xl relative z-10 mt-6 md:mt-0">
+            <div class="mb-2 text-emerald-700 text-xs font-black uppercase tracking-[4px] text-center">Instant Catalog Search</div>
+            <h2 class="text-slate-900 text-2xl md:text-4xl font-black text-center mb-6 md:mb-8 tracking-tight uppercase leading-tight">Search Agricultural Products</h2>
             
             <div class="relative max-w-2xl mx-auto">
                 <input type="text" id="search-input" onkeyup="liveSearch(this.value)" 
-                       placeholder="Search school socks, gents designs, diabetic care..." 
-                       class="w-full bg-zinc-950 border border-zinc-800 py-5 pl-6 md:pl-8 pr-16 md:pr-20 text-lg md:text-2xl text-white rounded-2xl outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 transition-all font-medium placeholder:text-zinc-600 shadow-2xl">
+                       placeholder="Search dehydrated gotukola, ceylon cinnamon, moringa powder..." 
+                       class="w-full bg-white border-2 border-emerald-600/30 py-4 md:py-5 pl-6 pr-16 text-base md:text-xl text-slate-900 rounded-2xl outline-none focus:border-emerald-700 focus:ring-4 focus:ring-emerald-500/15 transition-all font-semibold placeholder:text-slate-400 shadow-2xl">
                 
-                <div class="absolute right-2.5 top-2.5 w-12 h-12 md:w-14 md:h-14 bg-red-600 rounded-xl flex items-center justify-center text-white shadow-lg pointer-events-none">
-                    <i class="fas fa-search text-lg md:text-xl"></i>
+                <div class="absolute right-3 top-3 md:top-3.5 w-10 h-10 md:w-11 md:h-11 bg-emerald-700 rounded-xl flex items-center justify-center text-white shadow-lg pointer-events-none">
+                    <i class="fas fa-search text-base"></i>
                 </div>
             </div>
 
-            <div id="search-results" class="mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 pb-24 no-scrollbar max-w-3xl mx-auto">
+            <div id="search-results" class="mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 pb-20 no-scrollbar max-w-2xl mx-auto">
             </div>
 
-            <div class="fixed bottom-6 md:bottom-8 left-0 right-0 text-center pointer-events-none">
-                <p class="text-zinc-600 text-[10px] md:text-xs font-black uppercase tracking-[3px]">Press <span class="text-zinc-300 bg-zinc-900 px-2.5 py-1 rounded-md border border-zinc-800 mx-1">ESC</span> to close</p>
+            <div class="fixed bottom-6 left-0 right-0 text-center pointer-events-none">
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Press <span class="text-emerald-800 bg-white px-2.5 py-1 rounded-md border border-slate-300 mx-1 font-black shadow-sm">ESC</span> to exit search</p>
             </div>
         </div>
     </div>
+
